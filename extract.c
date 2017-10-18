@@ -69,12 +69,23 @@ char* data_map(hpi_file_entry_t *entries, int index, char* data) {
 }
 
 int main(int c, char** v) {
+    if (c < 3 || c > 4) {
+        die("usage: extract hpi hpb [flavor]\n  flavor is either 1 (Untold), 5 (EOV), or 0 (Ignore)");
+    }
+
     FILE* hpi = fopen(v[1], "rb");
     FILE* hpb = fopen(v[2], "rb");
+    int flavor = 1;
+
     if (!hpi)
         die("Failed to open HPI.\n");
     if (!hpb)
         die("Failed to open HPB.\n");
+
+    if (c == 4)
+        flavor = v[3][0] - '0';
+    if (!(flavor == 1 || flavor == 5 || flavor == 0))
+        die("invalid flavor\n");
 
     fseek(hpi, 0, SEEK_END);
     size_t hpi_file_size = ftell(hpi);
@@ -111,7 +122,10 @@ int main(int c, char** v) {
         char *name = name_map(file_entries, i, filename_blob);
 
         // If you're poking around, comment this. Keep in mind no decompression is performed.
-        if (strncmp(name, "VOICE/", 6))
+        if (flavor == 1 && strncmp(name, "VOICE/", 6))
+            continue; // Not voice files, keep going
+
+        if (flavor == 5 && strncmp(name, "SND/", 4))
             continue; // Not voice files, keep going
 
         char* dir = dir_name(name);

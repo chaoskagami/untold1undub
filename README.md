@@ -9,6 +9,8 @@ These tools are capable of modifying "Etrian Odyssey Untold: The Millenium Girl"
 
 The only reason this is possible is due to this guy: https://github.com/xdanieldzd and his tool UntoldUnpack, which served as documentation for implementing my own tool.
 
+Now with support for EOV, due to using the exact same data format! Whee.
+
 How to use
 ----------
 
@@ -21,7 +23,7 @@ More specifically: You need the data files MORI1R.HPI and MORI1R.HPB from both. 
 First, run the following:
 
 ```
-./extract JPN_MORI1R.HPI JPN_MORI1R.HPB
+./extract JPN_MORI1R.HPI JPN_MORI1R.HPB 1
 ```
 
 This will generate an output folder named `VOICE` with the japanese voice data. Next, in the same directory, run the following:
@@ -33,6 +35,9 @@ This will generate an output folder named `VOICE` with the japanese voice data. 
 This will generate two output files: out.hpi and out.hpb. These are your undub. Rebuild the romfs using these as MORI1R.HPI/MORI1R.HPB or use Luma's layeredfs functionality with the proper structure to avoid painful CIA install delays.
 
 For a full undub, you'll also want to overwrite the video files that are not in the archive and in the folder named `Mobiclip` within the romfs.
+
+If you want to do this with EOV, replace MORI1R with MORI5 and use '5' as the argument to extract instead of '1'. And use a 
+Japanese and English copy of that game, not Untold.
 
 How the hell does this work?
 ----------------------------
